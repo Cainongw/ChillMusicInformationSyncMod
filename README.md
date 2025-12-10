@@ -4,11 +4,11 @@
 [![.NET Framework 4.7.2](https://img.shields.io/badge/.NET%20Framework-4.7.2-blue.svg)](https://dotnet.microsoft.com/download/dotnet-framework/net472)
 [![BepInEx](https://img.shields.io/badge/BepInEx-Plugin-green.svg)](https://github.com/BepInEx/BepInEx)
 
-一个用于游戏 《*放松时光：与你共享Lo-Fi故事*》 的 BepInEx 插件，可以实现与Windows媒体控制APi (SMTC)双向同步的Mod
+一个用于游戏 《*放松时光：与你共享Lo-Fi故事*》 的 BepInEx 插件，可以实现与Windows媒体控制API (SMTC)双向同步的Mod
 
 ---
 
-[![Chill with You](./header_schinese.jpg)](https://store.steampowered.com/app/3548580/)
+[![Chill with You](imgs/header_schinese.jpg)](https://store.steampowered.com/app/3548580/)
 
 > 「放松时光：与你共享Lo-Fi故事」是一个与喜欢写故事的女孩聪音一起工作的有声小说游戏。您可以自定义艺术家的原创乐曲、环境音和风景，以营造一个专注于工作的环境。在与聪音的关系加深的过程中，您可能会发现与她之间的特别联系。
 ---
