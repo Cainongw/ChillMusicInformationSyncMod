@@ -65,8 +65,9 @@
       <HintPath>..\libs\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\libs\UnityEngine.InputLegacyModule.dll</HintPath>
+    <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\libs\UnityEngine.UI.dll</HintPath>
@@ -82,6 +83,7 @@
     <Compile Include="Patches\TImelineDragPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTC\SMTCEventHandle.cs" />
+    <Compile Include="UISync\MusicCoverMananger.cs" />
     <Compile Include="UISync\MusicUISync.cs" />
     <Compile Include="SMTC\SMTCImport.cs" />
     <Compile Include="SMTC\SMTCStatus.cs" />

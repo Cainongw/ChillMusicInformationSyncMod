@@ -47,6 +47,8 @@ namespace ChillMusicInformationSync.SMTC
         private static extern void SMTC_GetTimeline(out long position, out long duration);
         [DllImport(DllName, CallingConvention = NativeCall)]
         private static extern void SMTC_SetTimeline(long positionTicks);
+        [DllImport(DllName, CallingConvention = NativeCall)]
+        private static extern int SMTC_GetCoverImage(byte[] buffer, int len);
 
         // DllImport 声明: 控制
         [DllImport(DllName, CallingConvention = NativeCall)]
@@ -81,6 +83,7 @@ namespace ChillMusicInformationSync.SMTC
         // 缓冲区 (避免每次 Getter 都重新分配内存)
         private readonly byte[] _titleBuffer = new byte[256];
         private readonly byte[] _artistBuffer = new byte[256];
+        private readonly byte[] _coverBuffer = new byte[1024 * 256]; // 256KB
 
 
         private SMTCImport()
@@ -150,6 +153,20 @@ namespace ChillMusicInformationSync.SMTC
                 return Encoding.UTF8.GetString(_artistBuffer, 0, len);
             }
             return string.Empty;
+        }
+        public byte[] GetCoverImage()
+
+        {
+            int len = SMTC_GetCoverImage(_coverBuffer, _coverBuffer.Length);
+            if (len <= 0)
+            {
+                return Array.Empty<byte>();
+            }
+            var managed = new byte[len];
+
+            Buffer.BlockCopy(_coverBuffer, 0, managed, 0, len);
+
+            return managed;
         }
 
         public bool IsPlaying()

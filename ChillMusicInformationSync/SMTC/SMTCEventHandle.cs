@@ -104,7 +104,8 @@ namespace ChillMusicInformationSync.SMTC
             SMTCStatus.CurrentTitle = title;
             SMTCStatus.CurrentArtist = artist;
 
-            UISync.MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
+            MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
+            MusicCoverMananger.RefreshCoverInCenterIcons();
             _logger.LogInfo($"[SMTC Event Handle] 状态更新: {title} - {artist}");
         }
 
@@ -118,11 +119,13 @@ namespace ChillMusicInformationSync.SMTC
             if (isPlaying)
             {
                 UISync.MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
+                MusicCoverMananger.RefreshCoverInCenterIcons();
                 UISync.MusicUISync.SetButtonToPause();
             }
             else
             {
                 UISync.MusicUISync.SetButtonToPlay();
+                MusicCoverMananger.RemoveCoverFromCenterIcons();
             }
 
             _logger.LogInfo($"[SMTC Event Handle] 状态更新: {(isPlaying ? "播放中" : "暂停")}");

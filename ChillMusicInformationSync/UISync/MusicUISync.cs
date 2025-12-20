@@ -45,6 +45,7 @@ namespace ChillMusicInformationSync.UISync
             if (SMTCStatus.IsPlaying)
             {
                 SetButtonToPause();
+                MusicCoverMananger.RefreshCoverInCenterIcons();
                 SetGameMainState(true);
             }
             else

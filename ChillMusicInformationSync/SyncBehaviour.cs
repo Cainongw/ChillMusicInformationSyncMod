@@ -8,22 +8,13 @@ namespace ChillMusicInformationSync
 {
     public class SyncBehaviour : MonoBehaviour
     {
-        private static MusicUI _musicUIInstance;
         private static ManualLogSource _logger;
-        private static MethodInfo _onChangeMusicMethod;
-        private static bool _lastSMTCIsPlaying = false;
-
-        private float _timer = 0f;
 
         public void InitLogger(BepInEx.Logging.ManualLogSource logger)
         {
             _logger = logger;
         }
 
-        private void Start()
-        {
-            _logger?.LogInfo("SMTCSyncBehaviour started.");
-        }
         void OnApplicationQuit()
         {
             SMTCEventHandle.Instance.Dispose();
