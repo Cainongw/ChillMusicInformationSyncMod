@@ -49,6 +49,12 @@
       <HintPath>..\libs\BepInEx.Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>..\libs\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>..\libs\DOTweenPro.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,6 +79,9 @@
       <HintPath>..\libs\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\libs\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
@@ -83,6 +92,7 @@
     <Compile Include="Patches\TImelineDragPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTC\SMTCEventHandle.cs" />
+    <Compile Include="UISync\ControlButtonHider.cs" />
     <Compile Include="UISync\MusicCoverMananger.cs" />
     <Compile Include="UISync\MusicUISync.cs" />
     <Compile Include="SMTC\SMTCImport.cs" />

@@ -29,7 +29,7 @@
 - YouTube(Chrome)
 - Bilibili(Chrome)
 - Apple Music(不支持游戏内拖动进度条)
-- 网易云With [BetterNCM](https://github.com/std-microblock/chromatic/tree/v2)
+- 网易云音乐 With [BetterNCM](https://github.com/std-microblock/chromatic/tree/v2)
 
 ## 主要功能
 
@@ -87,5 +87,5 @@
 ## Todo list
 
 - [x] 增加歌曲封面同步
-- [ ] 在播放时隐藏游戏的循环/随机按钮
-- [ ] 为封面/按钮的出现和隐藏增加动画
+- [x] 在播放时隐藏游戏的循环/随机按钮
+- [x] 为封面/按钮的出现和隐藏增加动画

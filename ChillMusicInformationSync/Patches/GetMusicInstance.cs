@@ -18,6 +18,7 @@ namespace ChillMusicInformationSync.Patches
                 // 确保只执行一次初始同步逻辑
                 MusicUI musicUIInstance = MusicUIField?.GetValue(__instance) as MusicUI;
                 MusicUISync.GetInstance(__instance , musicUIInstance);
+                ControlButtonHider.GetMusicUIInstance(musicUIInstance);
             }
         }
     }

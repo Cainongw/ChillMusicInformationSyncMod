@@ -1,20 +1,46 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36603.0 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChillMusicInformationSync", "ChillMusicInformationSync\ChillMusicInformationSync.csproj", "{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SMTC-Bridge-Cpp", "..\SMTC-Bridge-Cpp\SMTC-Bridge-Cpp\SMTC-Bridge-Cpp.vcxproj", "{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Debug|x64.Build.0 = Debug|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Debug|x86.Build.0 = Debug|Any CPU
 		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Release|x64.ActiveCfg = Release|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Release|x64.Build.0 = Release|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Release|x86.ActiveCfg = Release|Any CPU
+		{FBECEB52-A3C4-4E52-A3C6-59B2C0069008}.Release|x86.Build.0 = Release|Any CPU
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Debug|Any CPU.Build.0 = Debug|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Debug|x64.ActiveCfg = Debug|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Debug|x64.Build.0 = Debug|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Debug|x86.ActiveCfg = Debug|Win32
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Debug|x86.Build.0 = Debug|Win32
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Release|Any CPU.ActiveCfg = Release|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Release|Any CPU.Build.0 = Release|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Release|x64.ActiveCfg = Release|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Release|x64.Build.0 = Release|x64
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Release|x86.ActiveCfg = Release|Win32
+		{D99DCCA5-34A0-4AFC-AC94-73D6DD86825F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -46,6 +46,7 @@ namespace ChillMusicInformationSync.UISync
             {
                 SetButtonToPause();
                 MusicCoverMananger.RefreshCoverInCenterIcons();
+                ControlButtonHider.HideOriginalButtons();
                 SetGameMainState(true);
             }
             else

@@ -121,11 +121,13 @@ namespace ChillMusicInformationSync.SMTC
                 UISync.MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
                 MusicCoverMananger.RefreshCoverInCenterIcons();
                 UISync.MusicUISync.SetButtonToPause();
+                ControlButtonHider.HideOriginalButtons();
             }
             else
             {
                 UISync.MusicUISync.SetButtonToPlay();
                 MusicCoverMananger.RemoveCoverFromCenterIcons();
+                ControlButtonHider.RestoreButtons();
             }
 
             _logger.LogInfo($"[SMTC Event Handle] 状态更新: {(isPlaying ? "播放中" : "暂停")}");

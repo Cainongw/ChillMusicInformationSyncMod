@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening; 
 using ChillMusicInformationSync.SMTC;
 
 namespace ChillMusicInformationSync.UISync
 {
     public static class MusicCoverMananger
     {
-        private static Vector2 _originalPos = Vector2.zero; // 记录原始位置
+        private static Vector2 _originalPos = Vector2.zero;
+        private static GameObject _currentCover;
+
+        private const float AnimDuration = 0.6f;
+        private const float CoverSize = 80f;
+        private const float Spacing = 20f;
 
         public static void RefreshCoverInCenterIcons()
         {
@@ -14,68 +20,79 @@ namespace ChillMusicInformationSync.UISync
             if (coverData == null || coverData.Length == 0) return;
 
             GameObject centerIcons = GameObject.Find("CenterIcons");
-            if (!centerIcons) return;
+            GameObject playlistBtn = GameObject.Find("IconMusicPlaylist_Button");
+            if (!centerIcons || !playlistBtn) return;
 
-            RectTransform parentRect = centerIcons.GetComponent<RectTransform>();
+            RectTransform centerRect = centerIcons.GetComponent<RectTransform>();
+            if (_originalPos == Vector2.zero) _originalPos = centerRect.anchoredPosition;
 
-            // 第一次运行，记录初始坐标，方便以后还原
-            if (_originalPos == Vector2.zero) _originalPos = parentRect.anchoredPosition;
-
-            Transform coverTransform = centerIcons.transform.Find("Mod_SongCover");
-            GameObject coverObj;
-            Image img;
-
-            if (coverTransform == null)
+            if (_currentCover == null)
             {
-                coverObj = new GameObject("Mod_SongCover");
-                coverObj.transform.SetParent(centerIcons.transform, false);
-                img = coverObj.AddComponent<Image>();
-                coverObj.transform.SetAsLastSibling();
+                // 1. 创建封面 GameObject
+                _currentCover = new GameObject("Mod_SongCover");
+                _currentCover.transform.SetParent(centerIcons.transform, false);
+                _currentCover.transform.SetAsLastSibling();
 
-                float coverSize = 80f; // 封面宽度
-                float spacing = 20f;   // 封面和按钮之间的间距
-                coverObj.GetComponent<RectTransform>().sizeDelta = new Vector2(coverSize, coverSize);
+                Image img = _currentCover.AddComponent<Image>();
+                CanvasGroup cg = _currentCover.AddComponent<CanvasGroup>();
+                RectTransform coverRect = _currentCover.GetComponent<RectTransform>();
 
-                // 移动的距离大约等于：封面宽度 + 间距
-                parentRect.anchoredPosition = new Vector2(_originalPos.x - (coverSize + spacing), _originalPos.y);
-            }
-            else
-            {
-                coverObj = coverTransform.gameObject;
-                img = coverObj.GetComponent<Image>();
-                if (img.sprite != null)
-                {
-                    if (img.sprite.texture != null) Object.Destroy(img.sprite.texture);
-                    Object.Destroy(img.sprite);
-                }
-            }
+                coverRect.sizeDelta = new Vector2(CoverSize, CoverSize);
+                cg.alpha = 0;
+                coverRect.localScale = Vector3.zero;
 
-            // 加载图片
-            Texture2D tex = new Texture2D(2, 2);
-            if (tex.LoadImage(coverData))
-            {
-                img.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-                img.preserveAspect = true;
+                // 2. 计算目标位置
+                Vector2 targetCenterPos = new Vector2(_originalPos.x - (CoverSize + Spacing), _originalPos.y);
+
+                // --- 使用 DOTween.To 替代扩展方法，解决报错问题 ---
+
+                // 推动 CenterIcons 往左移 (等同于 DOAnchorPos)
+                DOTween.To(() => centerRect.anchoredPosition, x => centerRect.anchoredPosition = x, targetCenterPos, AnimDuration)
+                    .SetEase(Ease.OutQuint);
+
+                // 封面淡入 (等同于 DOFade)
+                DOTween.To(() => cg.alpha, x => cg.alpha = x, 1f, AnimDuration);
+
+                // 封面弹出缩放 (等同于 DOScale)
+                DOTween.To(() => coverRect.localScale, x => coverRect.localScale = x, Vector3.one, AnimDuration)
+                    .SetEase(Ease.OutBack);
             }
 
-            LayoutRebuilder.ForceRebuildLayoutImmediate(parentRect);
+            UpdateImageSprite(_currentCover.GetComponent<Image>(), coverData);
         }
 
-        // 删除函数：用于隐藏或停止播放时调用
         public static void RemoveCoverFromCenterIcons()
         {
             GameObject centerIcons = GameObject.Find("CenterIcons");
-            if (!centerIcons) return;
+            if (!centerIcons || _currentCover == null) return;
 
-            Transform coverTransform = centerIcons.transform.Find("Mod_SongCover");
-            if (coverTransform != null)
+            RectTransform centerRect = centerIcons.GetComponent<RectTransform>();
+            CanvasGroup cg = _currentCover.GetComponent<CanvasGroup>();
+            RectTransform coverRect = _currentCover.GetComponent<RectTransform>();
+
+            // 消失动画
+            DOTween.To(() => coverRect.localScale, x => coverRect.localScale = x, Vector3.zero, 0.3f).SetEase(Ease.InBack);
+            DOTween.To(() => cg.alpha, x => cg.alpha = x, 0f, 0.3f).OnComplete(() => {
+                Object.Destroy(_currentCover);
+                _currentCover = null;
+            });
+
+            // 面板弹回
+            DOTween.To(() => centerRect.anchoredPosition, x => centerRect.anchoredPosition = x, _originalPos, 0.5f).SetEase(Ease.OutQuad);
+        }
+
+        private static void UpdateImageSprite(Image img, byte[] data)
+        {
+            if (img.sprite != null)
             {
-                Object.Destroy(coverTransform.gameObject);
-
-                // --- 核心逻辑：还原位置 ---
-                centerIcons.GetComponent<RectTransform>().anchoredPosition = _originalPos;
-
-                LayoutRebuilder.ForceRebuildLayoutImmediate(centerIcons.GetComponent<RectTransform>());
+                Object.Destroy(img.sprite.texture);
+                Object.Destroy(img.sprite);
+            }
+            Texture2D tex = new Texture2D(2, 2);
+            if (tex.LoadImage(data))
+            {
+                img.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+                img.preserveAspect = true;
             }
         }
     }
