@@ -65,7 +65,7 @@
 
 1. 确保已正确安装 BepInEx 框架
 2. 启动一次游戏
-3. 将Relaese中的zip解压并覆盖到游戏根目录
+3. 将Relaese中的ChillMusicInformationSync.dll放到BepInEx\plugins\ChillMusicInfoSync
 4. 启动游戏
 
 ## 关于随机播放/重复播放
