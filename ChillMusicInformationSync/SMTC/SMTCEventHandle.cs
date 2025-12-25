@@ -111,13 +111,19 @@ namespace ChillMusicInformationSync.SMTC
 
         private void UpdatePlaybackStatus()
         {
-            SMTCStatus.IsPlaying = SMTCImport.Instance.IsPlaying();
             bool isPlaying = SMTCImport.Instance.IsPlaying();
-            string title = SMTCImport.Instance.GetTitle();
-            string artist = SMTCImport.Instance.GetArtist();
-            MusicUISync.SetGameMainState(isPlaying);
+            SMTCStatus.IsPlaying = isPlaying;
+            if (SMTCStatus.IsSwitchingToBuiltIn && !isPlaying)
+            {
+                return;
+            }
             if (isPlaying)
             {
+                SMTCStatus.IsSwitchingToBuiltIn = false;
+                SMTCStatus.IsControlledByMod = true;
+                MusicUISync.PauseGameMusic();
+                string title = SMTCImport.Instance.GetTitle();
+                string artist = SMTCImport.Instance.GetArtist();
                 UISync.MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
                 MusicCoverMananger.RefreshCoverInCenterIcons();
                 UISync.MusicUISync.SetButtonToPause();
@@ -126,8 +132,7 @@ namespace ChillMusicInformationSync.SMTC
             else
             {
                 UISync.MusicUISync.SetButtonToPlay();
-                MusicCoverMananger.RemoveCoverFromCenterIcons();
-                ControlButtonHider.RestoreButtons();
+                MusicUISync.SetGameMainState(false);
             }
 
             _logger.LogInfo($"[SMTC Event Handle] 状态更新: {(isPlaying ? "播放中" : "暂停")}");

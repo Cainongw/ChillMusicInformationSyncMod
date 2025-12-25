@@ -12,7 +12,7 @@ namespace ChillMusicInformationSync.Patch
         [HarmonyPrefix]
         public static bool Prefix(ref string musicTitle, ref string artistName)
         {
-            if (SMTCStatus.IsPlaying)
+            if (SMTCStatus.IsControlledByMod)
             {
                 musicTitle = SMTCStatus.CurrentTitle;
                 artistName = SMTCStatus.CurrentArtist;

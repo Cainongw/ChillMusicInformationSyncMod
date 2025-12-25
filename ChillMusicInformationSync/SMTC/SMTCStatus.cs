@@ -7,8 +7,9 @@
 
         public static string CurrentArtist { get; set; } = string.Empty;
 
-
         public static bool IsPlaying { get; set; } = false;
+        public static bool IsControlledByMod { get; set; } = false;
+        public static bool IsSwitchingToBuiltIn { get; set; } = false;
 
         public static float CurrentProgress { get; set; } = 0f;
     }

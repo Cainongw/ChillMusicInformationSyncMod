@@ -8,7 +8,7 @@ public static class SetMusicProgressPatch
 {
     public static bool Prefix(float progress)
     {
-        if (SMTCStatus.IsPlaying)
+        if (SMTCStatus.IsControlledByMod)
         {
             try
             {

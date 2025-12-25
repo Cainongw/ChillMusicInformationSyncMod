@@ -42,12 +42,12 @@ namespace ChillMusicInformationSync.UISync
             }
 
             _logger?.LogInfo($"成功找到 MusicUI 实例：{_musicUIInstance.name} (GameObject)");
-            if (SMTCStatus.IsPlaying)
+            if (SMTCStatus.IsControlledByMod)
             {
                 SetButtonToPause();
                 MusicCoverMananger.RefreshCoverInCenterIcons();
                 ControlButtonHider.HideOriginalButtons();
-                SetGameMainState(true);
+                //SetGameMainState(true);
             }
             else
             {
@@ -148,7 +148,13 @@ namespace ChillMusicInformationSync.UISync
 
             // 核心步骤：使用反射引用来设置私有字段的值
             MainStateFieldInfo.SetValue(_facilityInstance, newState);
-
+        }
+        public static void PauseGameMusic()
+        {
+            if (!_facilityInstance.IsPaused)
+            {
+                _facilityInstance.PauseMusic();
+            }
         }
     }
 }

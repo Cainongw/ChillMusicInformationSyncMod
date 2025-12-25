@@ -9,7 +9,7 @@ namespace ChillMusicInformationSync.Patches
     {
         public static bool Prefix(ref float __result)
         {
-            if (SMTCStatus.IsPlaying)
+            if (SMTCStatus.IsControlledByMod)
             {
                 if (SMTCStatus.CurrentProgress >= 0f)
                 {

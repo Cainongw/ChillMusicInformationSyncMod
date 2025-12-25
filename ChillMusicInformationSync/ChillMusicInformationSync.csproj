@@ -89,6 +89,7 @@
     <Compile Include="Patches\MusicDataPatch.cs" />
     <Compile Include="Patches\MusicButtonPatch.cs" />
     <Compile Include="Patches\MusicProgressBarPatch.cs" />
+    <Compile Include="Patches\PlayListButtonPatch.cs" />
     <Compile Include="Patches\TImelineDragPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTC\SMTCEventHandle.cs" />
