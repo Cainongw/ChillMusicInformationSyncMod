@@ -29,6 +29,7 @@
 - YouTube(Chrome)
 - Bilibili(Chrome)
 - Apple Music(不支持游戏内拖动进度条)
+- 酷狗音乐（进度条失效）
 - 网易云音乐 With [BetterNCM](https://github.com/std-microblock/chromatic/tree/v2)
 
 ## 主要功能
