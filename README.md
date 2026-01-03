@@ -58,9 +58,9 @@
 ---
 ### **您需要：**
 
+- Windows 10 1607及以上的Windows系统
 - 游戏本体
-- BepInEx 5.4.23.4 (与[RealTimeWeatherMod](https://github.com/Small-tailqwq/RealTimeWeatherMod)是相同的)
-
+- [BepInEx 5.4.23.4](https://github.com/BepInEx/BepInEx/releases) (与[RealTimeWeatherMod](https://github.com/Small-tailqwq/RealTimeWeatherMod)是相同的)
 
 ### 安装步骤
 
