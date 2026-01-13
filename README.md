@@ -1,5 +1,7 @@
 # Chill Music Information Sync (音乐信息同步)
 
+[简体中文](README.md) | [English](docs/README.en.md) | [日本語](docs/README.ja.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET Framework 4.7.2](https://img.shields.io/badge/.NET%20Framework-4.7.2-blue.svg)](https://dotnet.microsoft.com/download/dotnet-framework/net472)
 [![BepInEx](https://img.shields.io/badge/BepInEx-Plugin-green.svg)](https://github.com/BepInEx/BepInEx)
@@ -85,8 +87,18 @@
 
 - Mod在接管游戏UI后，如果想播放游戏内置歌曲只需要点击播放列表按钮中的歌曲即可
 
+## 开发与构建
+
+1. 将仓库Clone到本地
+2. 从游戏内复制``Assembly-CSharp.dll``到./libs中
+3. 用Visual Studio打开或执行dotnet build
+
 ## Todo list
 
 - [x] 增加歌曲封面同步
 - [x] 在播放时隐藏游戏的循环/随机按钮
 - [x] 为封面/按钮的出现和隐藏增加动画
+
+## 关于其他Mod
+
+如果您对此游戏其他Mod感兴趣，可参见：[awesome-chillwithyou](https://github.com/clsty/awesome-chillwithyou)
