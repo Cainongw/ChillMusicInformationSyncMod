@@ -1,12 +1,12 @@
 # Chill Music Information Sync (音乐信息同步)
 
-[简体中文](README.md) | [English](docs/README.en.md) | [日本語](docs/README.ja.md)
+简体中文 | [English](docs/README.en.md) | [日本語](docs/README.ja.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET Framework 4.7.2](https://img.shields.io/badge/.NET%20Framework-4.7.2-blue.svg)](https://dotnet.microsoft.com/download/dotnet-framework/net472)
 [![BepInEx](https://img.shields.io/badge/BepInEx-Plugin-green.svg)](https://github.com/BepInEx/BepInEx)
 
-一个用于游戏 《*放松时光：与你共享Lo-Fi故事*》 的 BepInEx 插件，可以实现与Windows媒体控制API (SMTC)双向同步的Mod
+一个用于游戏 《*放松时光：与你共享Lo-Fi故事*》 的 BepInEx 插件，可以实现与 Windows 媒体控制 API(SMTC) 双向同步的 Mod
 
 ---
 
@@ -20,11 +20,11 @@
 
 ## ！！注意 ！！
 
-使用SMTC需要你的音乐播放器支持，并且并不是所有播放器都支持SMTC的全部功能
+使用 SMTC 需要你的音乐播放器支持，并且并不是所有播放器都支持SMTC的全部功能
 
-比如Apple Music桌面端就无法双向同步进度条
+比如 Apple Music 桌面端就无法双向同步进度条
 
-常见的支持SMTC的音乐播放器有：
+常见的支持 SMTC 的音乐播放器有：
 
 - Spotify
 - Groove Music
@@ -53,29 +53,29 @@
 
 ## 使用方法
 
-由于Unity Mono运行时的限制，无法调用Windows API，所以本项目需要用到[SMTC-Bridge-Cpp](https://github.com/Cainongw/SMTC-Bridge-Cpp)去在Native层操作
+由于 Unity Mono 运行时的限制，无法调用 Windows API ，所以本项目需要用到 [SMTC-Bridge-Cpp](https://github.com/Cainongw/SMTC-Bridge-Cpp) 在 Native 层操作
 
 在Relaese中已经包含，如果您不需要自行编译使用可以无视上面这段话
 
 ---
 ### **您需要：**
 
-- Windows 10 1607及以上的Windows系统
+- Windows 10 1607 及以上的 Windows 系统
 - 游戏本体
-- [BepInEx 5.4.23.4](https://github.com/BepInEx/BepInEx/releases) (与[RealTimeWeatherMod](https://github.com/Small-tailqwq/RealTimeWeatherMod)是相同的)
+- [BepInEx 5.4.23.4](https://github.com/BepInEx/BepInEx/releases) (与 [RealTimeWeatherMod](https://github.com/Small-tailqwq/RealTimeWeatherMod) 是相同的)
 
 ### 安装步骤
 
 1. 确保已正确安装 BepInEx 框架
 2. 启动一次游戏
-3. 将Relaese中的所有内容解压放到BepInEx\plugins
+3. 将 Relaese 中的所有内容解压放到 BepInEx\plugins
 4. 启动游戏
 
 ## 关于随机播放/重复播放
 
 各家播放器对于随机播放和循环播放的控制做的很差
 
-即使SMTC库中包含对于随机播放和重复播放的控制，但测试之后并没有播放器支持
+即使 SMTC 库中包含对于随机播放和重复播放的控制，但测试之后并没有播放器支持
 
 并且各个播放器实现的逻辑也不一样，有的将随机/列表/单曲重复放在一起，有的将随机与重复分开
 
@@ -85,13 +85,13 @@
 
 ## 说明
 
-- Mod在接管游戏UI后，如果想播放游戏内置歌曲只需要点击播放列表按钮中的歌曲即可
+- Mod 在接管游戏UI后，如果想播放游戏内置歌曲只需要点击播放列表按钮中的歌曲即可
 
 ## 开发与构建
 
-1. 将仓库Clone到本地
-2. 从游戏内复制``Assembly-CSharp.dll``到./libs中
-3. 用Visual Studio打开或执行dotnet build
+1. 将仓库 Clone 到本地
+2. 从游戏内复制 ``Assembly-CSharp.dll`` 到./libs中
+3. 用 Visual Studio 打开或执行 dotnet build
 
 ## Todo list
 
