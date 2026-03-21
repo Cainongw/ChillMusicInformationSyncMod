@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(cs|csproj|xml|txt|md\\)$\")",
+      "Bash(msbuild ChillMusicInformationSync/ChillMusicInformationSync.csproj /p:Configuration=Release /nologo)"
+    ]
+  }
+}
