@@ -39,6 +39,7 @@ namespace ChillMusicInformationSync.UISync
             if (_musicUIInstance == null)
             {
                 _logger?.LogError("未能在场景中找到 MusicUI 实例。UI同步功能将无法使用。");
+                return;
             }
 
             _logger?.LogInfo($"成功找到 MusicUI 实例：{_musicUIInstance.name} (GameObject)");
@@ -151,6 +152,7 @@ namespace ChillMusicInformationSync.UISync
         }
         public static void PauseGameMusic()
         {
+            if (_facilityInstance == null) return;
             if (!_facilityInstance.IsPaused)
             {
                 _facilityInstance.PauseMusic();
