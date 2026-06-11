@@ -21,7 +21,7 @@ namespace ChillMusicInformationSync.UISync
 
             GameObject centerIcons = GameObject.Find("CenterIcons");
             GameObject playlistBtn = GameObject.Find("IconMusicPlaylist_Button");
-            if (!centerIcons || !playlistBtn) return;
+            if (!centerIcons || !centerIcons.activeInHierarchy || !playlistBtn) return;
 
             RectTransform centerRect = centerIcons.GetComponent<RectTransform>();
             if (_originalPos == Vector2.zero) _originalPos = centerRect.anchoredPosition;
