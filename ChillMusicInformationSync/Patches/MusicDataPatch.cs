@@ -10,19 +10,17 @@ namespace ChillMusicInformationSync.Patch
     public static class DynamicSMTCUISyncPatch
     {
         [HarmonyPrefix]
-        public static bool Prefix(ref string musicTitle, ref string artistName)
+        public static bool Prefix(MusicUI __instance, ref string musicTitle, ref string artistName)
         {
+            if (!__instance.isActiveAndEnabled || !__instance.gameObject.activeInHierarchy)
+                return true;
+
             if (SMTCStatus.IsControlledByMod)
             {
                 musicTitle = SMTCStatus.CurrentTitle;
                 artistName = SMTCStatus.CurrentArtist;
-                return true;
             }
-            else
-            {
-                // 返回 true，允许原始方法继续执行。
-                return true;
-            }
+            return true;
         }
     }
 }

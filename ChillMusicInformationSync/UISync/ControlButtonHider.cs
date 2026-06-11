@@ -17,7 +17,7 @@ namespace ChillMusicInformationSync.UISync
 
         public static void HideOriginalButtons()
         {
-            if (_musicUI == null || _isButtonsHidden) return;
+            if (_musicUI == null || _isButtonsHidden || !_musicUI.gameObject.activeInHierarchy) return;
 
             // 1. 获取私有引用 (基于你提供的 MusicUI 源码)
             Image loopImg = GetField<Image>("_loopChangeButtonImage");
@@ -59,7 +59,7 @@ namespace ChillMusicInformationSync.UISync
 
         public static void RestoreButtons()
         {
-            if (_musicUI == null || !_isButtonsHidden) return;
+            if (_musicUI == null || !_isButtonsHidden || !_musicUI.gameObject.activeInHierarchy) return;
 
             Transform interfaceTrans = _musicUI.transform.Find("Interface");
             if (interfaceTrans == null) return;

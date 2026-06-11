@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using System;
 using UnityEngine;
+using ChillMusicInformationSync.Patches;
 using ChillMusicInformationSync.SMTC;
 using ChillMusicInformationSync.UISync;
 
@@ -10,7 +11,7 @@ using ChillMusicInformationSync.UISync;
 
 namespace ChillMusicInformationSync
 {
-    [BepInPlugin("caiw.ChillMusicInformationSync", "ChillMusicInformationSync", "1.0.0")]
+    [BepInPlugin("Caiw.ChillMusicInformationSync", "ChillMusicInformationSync", "1.5.0")]
     public class ChillMusicInformationSync : BaseUnityPlugin
     {
         internal static ChillMusicInformationSync Instance;
@@ -38,6 +39,7 @@ namespace ChillMusicInformationSync
                 var behaviour =  _runner.AddComponent<SyncBehaviour>();
                 behaviour.InitLogger(Logger);
                 MusicUISync.Initialize_logger(Logger);
+                SMTCScenarioHelper.InitLogger(Logger);
                 SMTCEventHandle.Instance.Initialize(Logger);
                 Logger.LogInfo("Runner 创建成功！");
             }
@@ -47,7 +49,7 @@ namespace ChillMusicInformationSync
             }
             try
             {
-                var harmony = new Harmony("ChillMusicInformationSnyc");
+                var harmony = new Harmony("ChillMusicInformationSync");
                 harmony.PatchAll();
 
             }

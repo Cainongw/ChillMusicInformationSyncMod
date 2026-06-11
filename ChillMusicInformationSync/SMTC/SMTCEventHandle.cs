@@ -95,17 +95,24 @@ namespace ChillMusicInformationSync.SMTC
             UpdateTimeline();
         }
 
+        private bool IsFacilityUIActive()
+        {
+            return MusicUISync.isMusicUISynced() && MusicUISync.IsMusicUIActiveInHierarchy();
+        }
+
         private void UpdateMediaProperties()
         {
             string title = SMTCImport.Instance.GetTitle();
             string artist = SMTCImport.Instance.GetArtist();
 
-            // 2. 使用 internal set 更新 SMTCStatus
             SMTCStatus.CurrentTitle = title;
             SMTCStatus.CurrentArtist = artist;
 
-            MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
-            MusicCoverMananger.RefreshCoverInCenterIcons();
+            if (IsFacilityUIActive())
+            {
+                MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
+                MusicCoverMananger.RefreshCoverInCenterIcons();
+            }
             _logger.LogInfo($"[SMTC Event Handle] 状态更新: {title} - {artist}");
         }
 
@@ -121,18 +128,24 @@ namespace ChillMusicInformationSync.SMTC
             {
                 SMTCStatus.IsSwitchingToBuiltIn = false;
                 SMTCStatus.IsControlledByMod = true;
-                MusicUISync.PauseGameMusic();
-                string title = SMTCImport.Instance.GetTitle();
-                string artist = SMTCImport.Instance.GetArtist();
-                UISync.MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
-                MusicCoverMananger.RefreshCoverInCenterIcons();
-                UISync.MusicUISync.SetButtonToPause();
-                ControlButtonHider.HideOriginalButtons();
+                if (IsFacilityUIActive())
+                {
+                    MusicUISync.PauseGameMusic();
+                    string title = SMTCImport.Instance.GetTitle();
+                    string artist = SMTCImport.Instance.GetArtist();
+                    UISync.MusicUISync.changeMusicTrigger(title, artist, MusicChangeKind.Manual);
+                    MusicCoverMananger.RefreshCoverInCenterIcons();
+                    UISync.MusicUISync.SetButtonToPause();
+                    ControlButtonHider.HideOriginalButtons();
+                }
             }
             else
             {
-                UISync.MusicUISync.SetButtonToPlay();
-                MusicUISync.SetGameMainState(false);
+                if (IsFacilityUIActive())
+                {
+                    UISync.MusicUISync.SetButtonToPlay();
+                    MusicUISync.SetGameMainState(false);
+                }
             }
 
             _logger.LogInfo($"[SMTC Event Handle] 状态更新: {(isPlaying ? "播放中" : "暂停")}");

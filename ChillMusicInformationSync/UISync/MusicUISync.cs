@@ -10,20 +10,14 @@ namespace ChillMusicInformationSync.UISync
 {
     public static class MusicUISync
     {
-        // BepInEx Log Source
         private static ManualLogSource _logger;
 
-        // 存储找到的 FacilityMusic , MusicUI 实例
         private static FacilityMusic _facilityInstance;
         private static MusicUI _musicUIInstance;
 
-        //  查找并存储 _mainState 字段的引用 (FieldInfo)
         private static readonly FieldInfo MainStateFieldInfo =
             AccessTools.Field(typeof(FacilityMusic), "_mainState");
-        //  查找 MainState 枚举类型
         private static readonly Type MainStateType = AccessTools.Inner(typeof(FacilityMusic), "MainState");
-        // 缓存 Playing 和 Pause 的枚举值对象
-        // Enum.Parse 在运行时查找 "Playing" 和 "Pause" 的实际值
         private static readonly object MainStatePlaying = MainStateType != null ? Enum.Parse(MainStateType, "Playing") : null;
         private static readonly object MainStatePause = MainStateType != null ? Enum.Parse(MainStateType, "Pause") : null;
 
@@ -31,6 +25,7 @@ namespace ChillMusicInformationSync.UISync
         {
             _logger = external_logger;
         }
+
         public static void GetInstance(FacilityMusic facilityInstance, MusicUI instance)
         {
             _facilityInstance = facilityInstance;
@@ -43,12 +38,13 @@ namespace ChillMusicInformationSync.UISync
             }
 
             _logger?.LogInfo($"成功找到 MusicUI 实例：{_musicUIInstance.name} (GameObject)");
+            if (!IsMusicUIActiveInHierarchy()) return;
+
             if (SMTCStatus.IsControlledByMod)
             {
                 SetButtonToPause();
                 MusicCoverMananger.RefreshCoverInCenterIcons();
                 ControlButtonHider.HideOriginalButtons();
-                //SetGameMainState(true);
             }
             else
             {
@@ -59,12 +55,15 @@ namespace ChillMusicInformationSync.UISync
 
         public static bool isMusicUISynced() { return _musicUIInstance != null; }
 
+        public static bool IsMusicUIActiveInHierarchy()
+        {
+            return _musicUIInstance != null && _musicUIInstance.gameObject.activeInHierarchy;
+        }
 
         public static void changeMusicTrigger(string musicTitle, string artistName, object changeKind)
         {
-            if (_musicUIInstance == null)
+            if (!IsMusicUIActiveInHierarchy())
             {
-                _logger?.LogWarning("MusicUI 实例未找到。无法触发 UI 更新。");
                 return;
             }
 
@@ -95,15 +94,10 @@ namespace ChillMusicInformationSync.UISync
             }
         }
 
-        // ----------------------------------------------------
-        // 按钮控制函数
-        // ----------------------------------------------------
-
         public static void SetButtonToPlay()
         {
-            if (_musicUIInstance == null)
+            if (!IsMusicUIActiveInHierarchy())
             {
-                _logger?.LogWarning("MusicUI 实例未找到。无法更改按钮状态。");
                 return;
             }
             try
@@ -117,15 +111,10 @@ namespace ChillMusicInformationSync.UISync
             }
         }
 
-        /// <summary>
-        /// 将 MusicUI 上的播放/暂停按钮设置为“暂停”图标（即当前为播放状态）。
-        /// 对应 MusicUI.OnPlayMusic() (Token: 0x060004E3)
-        /// </summary>
         public static void SetButtonToPause()
         {
-            if (_musicUIInstance == null)
+            if (!IsMusicUIActiveInHierarchy())
             {
-                _logger?.LogWarning("MusicUI 实例未找到。无法更改按钮状态。");
                 return;
             }
             try
@@ -147,7 +136,6 @@ namespace ChillMusicInformationSync.UISync
 
             object newState = isPlaying ? MainStatePlaying : MainStatePause;
 
-            // 核心步骤：使用反射引用来设置私有字段的值
             MainStateFieldInfo.SetValue(_facilityInstance, newState);
         }
         public static void PauseGameMusic()
