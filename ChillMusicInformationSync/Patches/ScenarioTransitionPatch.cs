@@ -2,13 +2,13 @@ using BepInEx.Logging;
 using HarmonyLib;
 using Bulbul;
 using ChillMusicInformationSync.SMTC;
-using ChillMusicInformationSync.UISync;
 
 namespace ChillMusicInformationSync.Patches
 {
     internal static class SMTCScenarioHelper
     {
         private static ManualLogSource _log;
+        private static bool _wasControlledByMod;
 
         internal static void InitLogger(ManualLogSource log)
         {
@@ -25,29 +25,29 @@ namespace ChillMusicInformationSync.Patches
 
             _log?.LogInfo("[ScenarioPatch] 情景开始，断开SMTC...");
 
+            _wasControlledByMod = true;
             SMTCStatus.IsSwitchingToBuiltIn = true;
             SMTCStatus.IsControlledByMod = false;
             SMTCStatus.IsPlaying = false;
             SMTCImport.SMTC_Pause();
-            MusicCoverMananger.RemoveCoverFromCenterIcons();
-            ControlButtonHider.RestoreButtons();
 
             _log?.LogInfo("[ScenarioPatch] SMTC已断开");
         }
 
         internal static void TryReconnectSMTC()
         {
-            bool isPlaying = SMTCImport.Instance.IsPlaying();
-            _log?.LogDebug($"[ScenarioPatch] 情景结束，SMTC是否在播放={isPlaying}");
-
-            if (isPlaying)
+            if (!_wasControlledByMod)
             {
-                SMTCStatus.IsSwitchingToBuiltIn = false;
-                SMTCStatus.IsControlledByMod = true;
-                SMTCStatus.IsPlaying = true;
-
-                _log?.LogInfo("[ScenarioPatch] SMTC仍在播放，已恢复控制权");
+                _log?.LogDebug("[ScenarioPatch] 断开前未被控制，跳过恢复");
+                return;
             }
+            _wasControlledByMod = false;
+
+            _log?.LogInfo("[ScenarioPatch] 情景结束，恢复SMTC控制权");
+
+            SMTCStatus.IsSwitchingToBuiltIn = false;
+            SMTCStatus.IsControlledByMod = true;
+            SMTCStatus.IsPlaying = SMTCImport.Instance.IsPlaying();
         }
     }
 
