@@ -2,6 +2,9 @@
 using ChillMusicInformationSync.SMTC;
 using ChillMusicInformationSync.UISync;
 using HarmonyLib;
+using System.Reflection;
+using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace ChillMusicInformationSync.Patches
@@ -13,12 +16,65 @@ namespace ChillMusicInformationSync.Patches
         [HarmonyPrefix]
         static bool Prefix(FacilityMusic __instance)
         {
-            SMTCStatus.IsSwitchingToBuiltIn = true;
-            SMTCStatus.IsControlledByMod = false;
-            SMTCImport.SMTC_Pause();
-            MusicCoverMananger.RemoveCoverFromCenterIcons();
-            ControlButtonHider.RestoreButtons();
+            MusicUISync.SwitchToBuiltInState();
             return true;
+        }
+    }
+    internal class PlaylistButtonRestoreHook : MonoBehaviour
+    {
+        private FacilityMusic _facilityMusic;
+        private GameAudioInfo _audioInfo;
+        private bool _listenerAdded;
+
+        internal void Configure(FacilityMusic facilityMusic, GameAudioInfo audioInfo, Button playButton)
+        {
+            _facilityMusic = facilityMusic;
+            _audioInfo = audioInfo;
+            if (!_listenerAdded && playButton != null)
+            {
+                _listenerAdded = true;
+                playButton.onClick.AddListener(OnBeforePlayListClick);
+            }
+        }
+
+        private void OnBeforePlayListClick()
+        {
+            if (!SMTCStatus.IsControlledByMod || _facilityMusic == null)
+            {
+                return;
+            }
+
+            if (_facilityMusic.PlayingMusic == _audioInfo)
+            {
+                MusicUISync.SwitchToBuiltInState();
+                if (_audioInfo != null)
+                {
+                    MusicUISync.changeMusicTrigger(_audioInfo.Title, _audioInfo.Credit, MusicChangeKind.Manual);
+                }
+                if (!_facilityMusic.IsPaused)
+                {
+                    MusicUISync.SetGameMainState(false);
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(MusicPlayListButtons), "Setup")]
+    public static class MusicPlayListButtonsSetupPatch
+    {
+        private static readonly FieldInfo PlayMusicButtonField =
+            AccessTools.Field(typeof(MusicPlayListButtons), "_playMusicbutton");
+
+        [HarmonyPrefix]
+        public static void Prefix(MusicPlayListButtons __instance, GameAudioInfo audioInfo, FacilityMusic facilityMusic)
+        {
+            var playButton = PlayMusicButtonField?.GetValue(__instance) as Button;
+            var hook = __instance.GetComponent<PlaylistButtonRestoreHook>();
+            if (hook == null)
+            {
+                hook = __instance.gameObject.AddComponent<PlaylistButtonRestoreHook>();
+            }
+            hook.Configure(facilityMusic, audioInfo, playButton);
         }
     }
 }

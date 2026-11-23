@@ -120,6 +120,7 @@ namespace ChillMusicInformationSync.SMTC
         {
             bool isPlaying = SMTCImport.Instance.IsPlaying();
             SMTCStatus.IsPlaying = isPlaying;
+            SMTCStatus.PlayAttemptId++;
             if (SMTCStatus.IsSwitchingToBuiltIn && !isPlaying)
             {
                 return;

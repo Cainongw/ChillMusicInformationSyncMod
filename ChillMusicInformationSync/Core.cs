@@ -15,6 +15,7 @@ namespace ChillMusicInformationSync
     public class ChillMusicInformationSync : BaseUnityPlugin
     {
         internal static ChillMusicInformationSync Instance;
+        internal static SyncBehaviour RunnerBehaviour { get; private set; }
         private static bool _initialized = false;
         private ManualLogSource _logger;
 
@@ -36,8 +37,8 @@ namespace ChillMusicInformationSync
                 DontDestroyOnLoad(_runner);
                 _runner.SetActive(true);
                 //挂载组件
-                var behaviour =  _runner.AddComponent<SyncBehaviour>();
-                behaviour.InitLogger(Logger);
+                RunnerBehaviour = _runner.AddComponent<SyncBehaviour>();
+                RunnerBehaviour.InitLogger(Logger);
                 MusicUISync.Initialize_logger(Logger);
                 SMTCScenarioHelper.InitLogger(Logger);
                 SMTCEventHandle.Instance.Initialize(Logger);

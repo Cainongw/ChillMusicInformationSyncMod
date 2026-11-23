@@ -12,6 +12,7 @@
         public static bool IsSwitchingToBuiltIn { get; set; } = false;
 
         public static float CurrentProgress { get; set; } = 0f;
+        public static int PlayAttemptId { get; set; } = 0;
     }
 }
 
