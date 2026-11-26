@@ -42,7 +42,20 @@ namespace ChillMusicInformationSync.UISync
 
             if (SMTCStatus.IsControlledByMod)
             {
-                SetButtonToPause();
+                if (SMTCStatus.IsPlaying)
+                {
+                    PauseGameMusic();
+                    if (!string.IsNullOrEmpty(SMTCStatus.CurrentTitle))
+                    {
+                        changeMusicTrigger(SMTCStatus.CurrentTitle, SMTCStatus.CurrentArtist, MusicChangeKind.Manual);
+                    }
+                    SetButtonToPause();
+                }
+                else
+                {
+                    SetButtonToPlay();
+                    SetGameMainState(false);
+                }
                 MusicCoverMananger.RefreshCoverInCenterIcons();
                 ControlButtonHider.HideOriginalButtons();
             }
@@ -144,6 +157,36 @@ namespace ChillMusicInformationSync.UISync
             if (!_facilityInstance.IsPaused)
             {
                 _facilityInstance.PauseMusic();
+            }
+        }
+        public static void SwitchToBuiltInState()
+        {
+            SMTCStatus.PlayAttemptId++;
+            SMTCStatus.IsSwitchingToBuiltIn = true;
+            SMTCStatus.IsControlledByMod = false;
+            SMTCStatus.IsPlaying = false;
+            SMTCImport.SMTC_Pause();
+            MusicCoverMananger.RemoveCoverFromCenterIcons();
+            ControlButtonHider.RestoreButtons();
+        }
+        public static void RestoreBuiltInMusic(bool resumePlayback)
+        {
+            SwitchToBuiltInState();
+            if (_facilityInstance == null) return;
+
+            var playing = _facilityInstance.PlayingMusic;
+            if (playing != null)
+            {
+                changeMusicTrigger(playing.Title, playing.Credit, MusicChangeKind.Manual);
+            }
+
+            if (resumePlayback)
+            {
+                if (!_facilityInstance.IsPaused)
+                {
+                    SetGameMainState(false);
+                }
+                _facilityInstance.UnPauseMusic();
             }
         }
     }
